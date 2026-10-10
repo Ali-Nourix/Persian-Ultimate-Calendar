@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.2.4 — 2026-10-10
+
+- Restore the supplied original calendar-day appearance in the sidebar and API date picker: ordinary days have no theme button fill, button shadow or inherited bold weight.
+- Keep semantic buttons, keyboard focus, range restrictions and the existing today/selected/holiday states.
+- Scope the reset to calendar day cells; settings and normal action buttons are unchanged.
+- Use a new release version rather than moving the already-published v4.2.3 tag.
+
 ## 4.2.3 — 2026-10-10
 
 - Align manifest, package and lockfile versions for a new release tag instead of moving the already-published v4.2.2 tag.

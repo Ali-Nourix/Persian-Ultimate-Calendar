@@ -30,6 +30,14 @@ The CI template in `docs/ci.yml` runs tests in UTC, Asia/Tehran and America/Los_
 - [ ] Test filename/path validation, preview direction and error recovery in the native settings UI.
 - [ ] Activate the CI/release templates with workflow write access and test a draft release after native validation.
 
+## 4.2.4 calendar appearance verification
+
+- `npm run check` passes type checking, formatting and 32 automated tests, including three scoped CSS regression checks.
+- A separate local Chromium harness exercised the actual calendar and picker modules under a mocked Obsidian DOM host with deliberately strong generic button styles. Both light/dark themes at 660px and 390px passed transparency, border, shadow, font-weight and overflow checks.
+- The harness also passed selection, month navigation, keyboard confirmation, note opening, disabled range dates and cancellation checks. Desktop and narrow screenshots were visually inspected with Vazirmatn loaded.
+- Ordinary days match the original unfilled cells; today and selected states retain their emphasis. The sidebar's original 600-weight primary date label is retained, without inherited 700-weight button styling.
+- This harness is local verification, not part of CI and not a native Obsidian or mobile-device test. Test the upgrade in a disposable Vault before publishing.
+
 ## Before release — real Obsidian
 
 Use a disposable Vault and back it up before testing an upgrade. This checklist is **not marked as completed** by automated tests.
