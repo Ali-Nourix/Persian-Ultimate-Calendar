@@ -1,37 +1,56 @@
-name: Draft plugin release
+name: Release from manifest
 on:
+  workflow_dispatch:
   push:
     tags:
       - "v*"
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: "Existing tag matching manifest version, e.g. v4.2.2"
-        required: true
-        type: string
 permissions:
   contents: read
 concurrency:
-  group: plugin-release-${{ github.event.inputs.tag || github.ref_name }}
+  group: plugin-release-${{ github.repository }}
   cancel-in-progress: false
 jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    env:
-      RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.tag || github.ref }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - name: Validate tag and package versions
-        run: node scripts/validate-release.mjs
+      - name: Read version from manifest and validate source
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          import { execFileSync } from "node:child_process";
+          import { validateRelease } from "./scripts/validate-release.mjs";
+          const json = name => JSON.parse(fs.readFileSync(name, "utf8"));
+          const manifest = json("manifest.json");
+          const tag = `v${manifest.version}`;
+          validateRelease(tag, manifest, json("package.json"), json("versions.json"));
+          const lock = json("package-lock.json");
+          if (lock.version !== manifest.version || lock.packages?.[""]?.version !== manifest.version)
+            throw new Error("package-lock.json must match manifest.version");
+          if (process.env.EVENT_NAME === "push" && process.env.REF_NAME !== tag)
+            throw new Error("Pushed tag must match manifest.version");
+          const head = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+          let existing;
+          try { existing = execFileSync("git", ["rev-parse", "--verify", `refs/tags/${tag}^{commit}`], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); }
+          catch { /* Missing tag is expected on first manual release. */ }
+          if (existing && existing !== head)
+            throw new Error("Version tag already points to another commit; increment the version instead of overwriting it");
+          fs.appendFileSync(process.env.GITHUB_ENV, `RELEASE_TAG=${tag}\nRELEASE_SHA=${head}\n`);
+          console.log(`Release ${tag} from ${head}`);
+          NODE
       - run: npm ci
       - name: Typecheck, tests and formatting
         run: npm run check
@@ -42,19 +61,37 @@ jobs:
       - run: npm run build
       - name: Package plugin and source
         run: |
+          set -euo pipefail
           mkdir -p dist/persian-ultimate-calendar
           cp main.js manifest.json styles.css LICENSE THIRD_PARTY_NOTICES.md dist/persian-ultimate-calendar/
           printf 'Source and installation guide: https://github.com/%s/tree/%s\n' "$GITHUB_REPOSITORY" "$RELEASE_TAG" > dist/persian-ultimate-calendar/SOURCE.txt
           (cd dist && zip -r persian-ultimate-calendar.zip persian-ultimate-calendar)
           git archive --format=zip --output=dist/persian-ultimate-calendar-source.zip HEAD
-      - name: Create draft release or update its assets
+      - name: Create or verify version tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if ! git show-ref --verify --quiet "refs/tags/$RELEASE_TAG"; then
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+              -f "ref=refs/tags/$RELEASE_TAG" -f "sha=$RELEASE_SHA"
+            git update-ref "refs/tags/$RELEASE_TAG" "$RELEASE_SHA"
+          fi
+          node scripts/validate-release.mjs
+      - name: Upload assets and publish release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           if gh release view "$RELEASE_TAG" --json isDraft > dist/release-state.json 2>/dev/null; then
-            node --input-type=module -e 'import fs from "node:fs"; if (!JSON.parse(fs.readFileSync("dist/release-state.json")).isDraft) throw new Error("Refusing to overwrite a published release");'
+            if node --input-type=module -e 'import fs from "node:fs"; process.exit(JSON.parse(fs.readFileSync("dist/release-state.json")).isDraft ? 1 : 0);'; then
+              echo "Release $RELEASE_TAG is already published; leaving it and its assets unchanged."
+              exit 0
+            fi
           else
-            gh release create "$RELEASE_TAG" --verify-tag --draft --title "Persian Ultimate Calendar $RELEASE_TAG" --generate-notes
+            gh release create "$RELEASE_TAG" --verify-tag --draft \
+              --title "Persian Ultimate Calendar $RELEASE_TAG" --generate-notes
           fi
-          gh release upload "$RELEASE_TAG" main.js manifest.json styles.css LICENSE THIRD_PARTY_NOTICES.md dist/persian-ultimate-calendar.zip dist/persian-ultimate-calendar-source.zip --clobber
+          gh release upload "$RELEASE_TAG" main.js manifest.json styles.css LICENSE THIRD_PARTY_NOTICES.md \
+            dist/persian-ultimate-calendar.zip dist/persian-ultimate-calendar-source.zip --clobber
+          gh release edit "$RELEASE_TAG" --draft=false
