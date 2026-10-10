@@ -4,6 +4,8 @@
 
 # Ultimate Persian Calendar
 
+[English version](README.en.md) · [راهنمای فارسی](README.md)
+
 **یادداشت‌های زنده، تقویم شمسی و API انتخاب تاریخ — در Obsidian.**
 
 [عبارت‌های زنده](docs/LIVE-EXPRESSIONS.md) · [نصب](#نصب) · [مرجع API](docs/API.md) · [ساخت Release](docs/RELEASING.md)
