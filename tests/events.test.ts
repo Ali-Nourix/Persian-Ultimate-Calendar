@@ -143,3 +143,25 @@ test("corrupt persisted snapshots are sanitized", () => {
     { "1404-1": { 1: [{ title: "ok", isHoliday: true, isReligious: false }] } },
   );
 });
+
+test("cancelled cache warming does not start further batches and preserves offline data", async () => {
+  let requests = 0;
+  const store = new EventStore(
+    async () => {
+      requests++;
+      return [];
+    },
+    async () => {},
+  );
+  store.restore({
+    months: {
+      "1404-1": {
+        1: [{ title: "نوروز", isHoliday: true, isReligious: false }],
+      },
+    },
+    expires: "",
+  });
+  assert.equal(await store.refresh(1404, 1, () => false), false);
+  assert.equal(requests, 0);
+  assert.equal(store.get(1404, 1)[1][0].title, "نوروز");
+});

@@ -9,7 +9,14 @@
     "skipLibCheck": true,
     "lib": ["DOM", "ES2018"],
     "types": ["node"],
-    "noEmit": true
+    "noEmit": true,
+    "allowJs": true
   },
-  "include": ["main.ts", "src/**/*.ts", "tests/**/*.ts"]
+  "include": [
+    "main.ts",
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "scripts/*.mjs",
+    "docs/examples/*.ts"
+  ]
 }

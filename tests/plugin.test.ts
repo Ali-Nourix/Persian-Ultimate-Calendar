@@ -29,6 +29,7 @@ test("plugin load migrates flat settings and persists nested data", async () => 
   const previous = (globalThis as unknown as { window: unknown }).window;
   (globalThis as unknown as { window: unknown }).window = {
     setInterval: () => 0,
+    clearInterval: () => {},
   };
   try {
     const Plugin = loadPlugin(),
@@ -56,6 +57,7 @@ test("plugin load uses defaults for missing or malformed settings", async () => 
   const previous = (globalThis as unknown as { window: unknown }).window;
   (globalThis as unknown as { window: unknown }).window = {
     setInterval: () => 0,
+    clearInterval: () => {},
   };
   try {
     const Plugin = loadPlugin(),
@@ -69,6 +71,37 @@ test("plugin load uses defaults for missing or malformed settings", async () => 
       ...DEFAULT_SETTINGS,
       showHolidays: false,
     });
+    plugin.onunload();
+  } finally {
+    (globalThis as unknown as { window: unknown }).window = previous;
+  }
+});
+
+test("disabled expression modes leave new text unchanged", async () => {
+  const previous = (globalThis as unknown as { window: unknown }).window;
+  (globalThis as unknown as { window: unknown }).window = {
+    setInterval: () => 0,
+    clearInterval: () => {},
+  };
+  try {
+    const Plugin = loadPlugin(),
+      plugin = new Plugin();
+    plugin.data = {
+      showHolidays: false,
+      dynamicExpressions: false,
+      staticExpressions: false,
+    };
+    await plugin.onload();
+    let replacements = 0;
+    const editor = {
+      getCursor: () => ({ line: 0, ch: 7 }),
+      getLine: () => "{#ساعت}",
+      replaceRange: () => {
+        replacements++;
+      },
+    };
+    plugin.handleSmartText(editor as never);
+    assert.equal(replacements, 0);
     plugin.onunload();
   } finally {
     (globalThis as unknown as { window: unknown }).window = previous;

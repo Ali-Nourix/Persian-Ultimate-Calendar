@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.2.2 — 2026-10-10
+
+- Make live expressions a primary documented feature, with a dedicated guide and visual.
+- Add independent static/dynamic controls and configurable 1/5/30/60-second refresh intervals.
+- Extract safe live-expression rendering and cover repeated updates with tests.
+- Redesign settings into accessible tabs for live values, notes and events; add filename previews, validation, save/error states and an in-app cache-clear confirmation.
+- Render documentation visuals with Vazirmatn and outline text for font-independent GitHub display.
+- Add a guarded draft-release workflow template, version/tag validator and activation guide; workflows are prepared but not active under the current connection permissions.
+- Expand API documentation and add a typechecked example consuming plugin.
+
 ## 4.2.1 — 2026-10-10
 
 - Split the supplied monolithic source into API, date utilities, event cache and UI modules.
