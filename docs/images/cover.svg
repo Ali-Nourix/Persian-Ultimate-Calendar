@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+<title id="title">Ultimate Persian Calendar</title><desc id="desc">Illustrated Jalali calendar for Farvardin 1404, with local date-picker API for Obsidian. Not a product screenshot.</desc>
+<rect width="1200" height="560" rx="16" fill="#F9F8F7"/>
+<g font-family="Arial, sans-serif">
+<rect x="56" y="64" width="44" height="44" rx="10" fill="#2783DE"/>
+<path d="M67 77h22v20H67z M67 83h22 M72 74v6 M84 74v6" fill="none" stroke="white" stroke-width="2"/>
+<text x="116" y="93" fill="#7D7A75" font-size="18" letter-spacing="1.5">OBSIDIAN · JALALI · LOCAL API</text>
+<text x="56" y="183" fill="#2C2C2B" font-size="50" font-weight="700">Your days.</text>
+<text x="56" y="243" fill="#2C2C2B" font-size="50" font-weight="700">Your calendar.</text>
+<text x="56" y="307" fill="#5F5C57" font-size="22">Persian dates, periodic notes</text>
+<text x="56" y="341" fill="#5F5C57" font-size="22">and one simple date-picker API.</text>
+<rect x="56" y="384" width="400" height="64" rx="8" fill="#E5F2FC"/>
+<text x="80" y="423" font-family="monospace" fill="#1C568D" font-size="21">await api.pickDate()</text>
+<text x="56" y="503" fill="#7D7A75" font-size="16">ULTIMATE PERSIAN CALENDAR / 4.2.1</text>
+</g>
+<rect x="624" y="48" width="520" height="464" rx="12" fill="#FFFFFF" stroke="#E6E5E3"/>
+<g font-family="Noto Sans Arabic, Tahoma, Arial, sans-serif" text-anchor="middle">
+<text x="884" y="102" fill="#2C2C2B" font-size="26" font-weight="600">فروردین ۱۴۰۴</text>
+<path d="M666 82l-8 8 8 8 M1102 82l8 8-8 8" fill="none" stroke="#7D7A75" stroke-width="2"/>
+<line x1="648" y1="125" x2="1120" y2="125" stroke="#E6E5E3"/>
+<text x="1086" y="162" font-size="18" fill="#7D7A75">ش</text><text x="1019" y="162" font-size="18" fill="#7D7A75">ی</text><text x="952" y="162" font-size="18" fill="#7D7A75">د</text><text x="885" y="162" font-size="18" fill="#7D7A75">س</text><text x="818" y="162" font-size="18" fill="#7D7A75">چ</text><text x="751" y="162" font-size="18" fill="#7D7A75">پ</text><text x="684" y="162" font-size="18" fill="#AE4035">ج</text><rect x="660" y="178" width="48" height="40" rx="8" fill="#2783DE"/><text x="684" y="204" font-size="18" fill="#FFFFFF">۱</text><text x="1086" y="250" font-size="18" fill="#2C2C2B">۲</text><text x="1019" y="250" font-size="18" fill="#2C2C2B">۳</text><text x="952" y="250" font-size="18" fill="#2C2C2B">۴</text><text x="885" y="250" font-size="18" fill="#2C2C2B">۵</text><text x="818" y="250" font-size="18" fill="#2C2C2B">۶</text><text x="751" y="250" font-size="18" fill="#2C2C2B">۷</text><text x="684" y="250" font-size="18" fill="#AE4035">۸</text><text x="1086" y="296" font-size="18" fill="#2C2C2B">۹</text><text x="1019" y="296" font-size="18" fill="#2C2C2B">۱۰</text><text x="952" y="296" font-size="18" fill="#2C2C2B">۱۱</text><text x="885" y="296" font-size="18" fill="#2C2C2B">۱۲</text><text x="818" y="296" font-size="18" fill="#2C2C2B">۱۳</text><text x="751" y="296" font-size="18" fill="#2C2C2B">۱۴</text><rect x="660" y="270" width="48" height="40" rx="8" fill="#E5F2FC"/><text x="684" y="296" font-size="18" fill="#AE4035">۱۵</text><text x="1086" y="342" font-size="18" fill="#2C2C2B">۱۶</text><text x="1019" y="342" font-size="18" fill="#2C2C2B">۱۷</text><text x="952" y="342" font-size="18" fill="#2C2C2B">۱۸</text><text x="885" y="342" font-size="18" fill="#2C2C2B">۱۹</text><text x="818" y="342" font-size="18" fill="#2C2C2B">۲۰</text><text x="751" y="342" font-size="18" fill="#2C2C2B">۲۱</text><text x="684" y="342" font-size="18" fill="#AE4035">۲۲</text><text x="1086" y="388" font-size="18" fill="#2C2C2B">۲۳</text><text x="1019" y="388" font-size="18" fill="#2C2C2B">۲۴</text><text x="952" y="388" font-size="18" fill="#2C2C2B">۲۵</text><text x="885" y="388" font-size="18" fill="#2C2C2B">۲۶</text><text x="818" y="388" font-size="18" fill="#2C2C2B">۲۷</text><text x="751" y="388" font-size="18" fill="#2C2C2B">۲۸</text><text x="684" y="388" font-size="18" fill="#AE4035">۲۹</text><text x="1086" y="434" font-size="18" fill="#2C2C2B">۳۰</text><text x="1019" y="434" font-size="18" fill="#2C2C2B">۳۱</text><line x1="648" y1="464" x2="1120" y2="464" stroke="#E6E5E3"/>
+<text x="884" y="491" font-size="14" fill="#7D7A75">نمای مفهومی · تقویم شمسی و انتخاب تاریخ</text>
+</g></svg>
