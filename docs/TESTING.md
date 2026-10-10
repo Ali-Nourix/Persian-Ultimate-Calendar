@@ -12,7 +12,7 @@ npm run build
 
 Tests cover Nowruz and leap years, Gregorian/Jalali roundtrips, localized digits, invalid dates, timestamp zero, local civil-date behavior, token replacement, all output formats, inclusive bounds, provider normalization, deduplication, retry after network failure, shared requests, forced refresh, stale-data retention, clear-versus-in-flight races and corrupt stored data.
 
-CI runs tests in UTC, Asia/Tehran and America/Los_Angeles and produces installable build artifacts. These are automated checks, not a claim of Obsidian Community Plugin approval.
+The CI template in `docs/ci.yml` runs tests in UTC, Asia/Tehran and America/Los_Angeles and produces installable build artifacts after activation. It is not active yet: copy it to `.github/workflows/ci.yml` using an account/connection with workflow write access. These are automated checks, not a claim of Obsidian Community Plugin approval.
 
 ## Local verification record — 2026-10-10
 

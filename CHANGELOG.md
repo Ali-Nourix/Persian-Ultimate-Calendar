@@ -11,7 +11,7 @@
 - Make manual refresh bypass cached responses; retain offline data during partial refresh.
 - Register UI/API before network warming; stop writing fresh cache when plugin is unloaded.
 - Remove generated implementation/fix reports, irrelevant package identity, unconfigured ESLint files and unused CSS.
-- Add bilingual-facing documentation, SVG cover, unit tests, pinned dependencies and CI build artifacts.
+- Add bilingual-facing documentation, SVG cover, unit tests, pinned dependencies and a CI template for build artifacts (not yet activated).
 - Raise minimum Obsidian version to 1.5.0; older 0.15.0 support is not claimed.
 
 ### Migration
