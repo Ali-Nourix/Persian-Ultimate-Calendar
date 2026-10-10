@@ -59,14 +59,12 @@ jobs:
           TZ=Asia/Tehran npm test
           TZ=America/Los_Angeles npm test
       - run: npm run build
-      - name: Package plugin and source
+      - name: Package the three install files
         run: |
           set -euo pipefail
-          mkdir -p dist/persian-ultimate-calendar
-          cp main.js manifest.json styles.css LICENSE THIRD_PARTY_NOTICES.md dist/persian-ultimate-calendar/
-          printf 'Source and installation guide: https://github.com/%s/tree/%s\n' "$GITHUB_REPOSITORY" "$RELEASE_TAG" > dist/persian-ultimate-calendar/SOURCE.txt
-          (cd dist && zip -r persian-ultimate-calendar.zip persian-ultimate-calendar)
-          git archive --format=zip --output=dist/persian-ultimate-calendar-source.zip HEAD
+          mkdir -p dist
+          rm -f dist/persian-ultimate-calendar.zip
+          zip -j dist/persian-ultimate-calendar.zip main.js manifest.json styles.css
       - name: Create or verify version tag
         env:
           GH_TOKEN: ${{ github.token }}
@@ -92,6 +90,6 @@ jobs:
             gh release create "$RELEASE_TAG" --verify-tag --draft \
               --title "Persian Ultimate Calendar $RELEASE_TAG" --generate-notes
           fi
-          gh release upload "$RELEASE_TAG" main.js manifest.json styles.css LICENSE THIRD_PARTY_NOTICES.md \
-            dist/persian-ultimate-calendar.zip dist/persian-ultimate-calendar-source.zip --clobber
+          gh release upload "$RELEASE_TAG" main.js manifest.json styles.css \
+            dist/persian-ultimate-calendar.zip --clobber
           gh release edit "$RELEASE_TAG" --draft=false

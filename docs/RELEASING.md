@@ -4,7 +4,7 @@
 
 ## Install the new revision
 
-An older release workflow already exists on `main`. The current agent connection still cannot edit `.github/workflows/*` (GitHub returns 403). Replace the contents of `.github/workflows/release.yml` with `docs/release.yml` using an account/connection authorized to write workflows, and commit the replacement. Until then, the older tag-input/draft workflow remains active.
+An older release workflow already exists on `main`. The current agent connection still cannot edit `.github/workflows/*` (GitHub returns 403). Replace the contents of `.github/workflows/Release.yml` with `docs/release.yml` using an account/connection authorized to write workflows, and commit the replacement. Until then, the older tag-input/draft workflow remains active.
 
 No extra personal-token secret is required: the release job requests `contents: write` for its scoped `GITHUB_TOKEN`. Repository/organization policy must allow that permission and tag/release creation. No workflow run, remote tag creation or release publication was initiated by the agent.
 
@@ -29,19 +29,28 @@ A pushed `vMAJOR.MINOR.PATCH` tag also triggers the workflow, but it must match 
 - An already-published release and its assets are left unchanged.
 - A new/existing draft receives the assets first, then is automatically published. A failed upload leaves a draft rather than an intentionally published partial release.
 
-## Assets
+## Assets — exactly four manual uploads
 
 ```text
 main.js
 manifest.json
 styles.css
-LICENSE
-THIRD_PARTY_NOTICES.md
 persian-ultimate-calendar.zip
-persian-ultimate-calendar-source.zip
 ```
 
-The install ZIP includes the three runtime files, license notices and a source link. Source is attached separately. Install runtime files into `.obsidian/plugins/persian-ultimate-calendar/`.
+The ZIP contains exactly these files at its root (no folder or extra files):
+
+```text
+main.js
+manifest.json
+styles.css
+```
+
+License notices remain in the repository and are available with GitHub's automatic source archives. There is no additional license asset, notices asset or manually uploaded source ZIP.
+
+GitHub automatically shows **Source code (zip)** and **Source code (tar.gz)** on releases; these are not uploaded by this workflow and cannot be removed from that standard source-download section. The four-asset rule applies to manual uploads.
+
+This affects future successful releases. Existing published releases are left unchanged by the safety guard. After modifying the workflow on main, use a new consistent manifest/package version for a new tag, rather than moving the existing version tag.
 
 ## Verification limits
 
