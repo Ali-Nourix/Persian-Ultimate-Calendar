@@ -620,3 +620,167 @@ button.persian-cal-day:focus-visible,
     transition: none;
   }
 }
+
+/* Settings: bounded panels, explicit states and theme-native colors. */
+.persian-calendar-settings {
+  direction: rtl;
+  max-width: 840px;
+  font-family: "Vazirmatn", var(--font-interface), sans-serif;
+}
+.persian-calendar-settings .pc-settings-header h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+}
+.persian-calendar-settings .pc-settings-header p,
+.persian-calendar-settings .pc-settings-description {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin: 0 0 24px;
+  font-size: 14px;
+}
+.persian-calendar-settings .pc-settings-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding-bottom: 12px;
+  margin: 24px 0;
+}
+.persian-calendar-settings .pc-settings-tabs button {
+  flex: 1;
+  min-height: 44px;
+  white-space: normal;
+  box-shadow: none;
+  border: 1px solid transparent;
+}
+.persian-calendar-settings .pc-settings-tabs button[aria-selected="true"] {
+  color: var(--text-accent);
+  border-color: var(--interactive-accent);
+  background: var(--background-primary-alt);
+}
+.persian-calendar-settings .pc-settings-tabs button:focus-visible {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 2px;
+}
+.persian-calendar-settings .pc-settings-panel h3 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+.persian-calendar-settings .setting-item {
+  padding: 20px 0;
+  gap: 24px;
+}
+.persian-calendar-settings .setting-item-name {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+.persian-calendar-settings .setting-item-description {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-top: 4px;
+}
+.persian-calendar-settings .setting-item-control {
+  gap: 8px;
+}
+.persian-calendar-settings .setting-item-control input[type="text"] {
+  min-height: 44px;
+  direction: ltr;
+  text-align: left;
+  max-width: 240px;
+}
+.persian-calendar-settings .setting-item-control select,
+.persian-calendar-settings .setting-item-control button {
+  min-height: 44px;
+}
+.persian-calendar-settings input[aria-invalid="true"] {
+  border-color: var(--text-error);
+}
+.persian-calendar-settings .pc-live-examples,
+.persian-calendar-settings .pc-cache-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.persian-calendar-settings .pc-live-example,
+.persian-calendar-settings .pc-cache-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 0;
+}
+.persian-calendar-settings .pc-live-label,
+.persian-calendar-settings .pc-cache-stat span {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.persian-calendar-settings .pc-live-example code {
+  direction: ltr;
+  unicode-bidi: isolate;
+  align-self: flex-start;
+  font-size: 14px;
+}
+.persian-calendar-settings .pc-live-example .persian-dynamic-tag {
+  box-shadow: none;
+  transform: none;
+  margin: 0;
+  max-width: 100%;
+  word-break: break-word;
+  font-size: 16px;
+}
+.persian-calendar-settings .pc-cache-stat strong {
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+.persian-calendar-settings .pc-settings-callout {
+  margin: 20px 0;
+  padding: 16px;
+  border-inline-start: 3px solid var(--interactive-accent);
+  background: var(--background-secondary);
+  border-radius: 8px;
+}
+.persian-calendar-settings .pc-settings-callout strong {
+  font-size: 16px;
+}
+.persian-calendar-settings .pc-settings-callout p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin: 8px 0 0;
+  color: var(--text-muted);
+}
+.persian-calendar-settings .pc-settings-message {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-accent);
+  margin-top: 16px;
+}
+.persian-calendar-settings .pc-settings-message.is-error {
+  color: var(--text-error);
+}
+@media (max-width: 600px) {
+  .persian-calendar-settings .pc-live-examples,
+  .persian-calendar-settings .pc-cache-stats {
+    grid-template-columns: 1fr;
+  }
+  .persian-calendar-settings .setting-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .persian-calendar-settings .setting-item-control {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .persian-calendar-settings .setting-item-control input[type="text"] {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.persian-calendar-settings .pc-cache-stats {
+  margin-top: 20px;
+}

@@ -199,7 +199,11 @@ export class EventStore {
     const expiry = Date.parse(this.snapshot.expires);
     return !Number.isFinite(expiry) || Date.now() >= expiry;
   }
-  async refresh(year: number, month: number): Promise<boolean> {
+  async refresh(
+    year: number,
+    month: number,
+    shouldContinue: () => boolean = () => true,
+  ): Promise<boolean> {
     const generation = ++this.generation;
     this.responses.clear();
     this.pending.clear();
@@ -207,6 +211,10 @@ export class EventStore {
     this.snapshot = { months: {}, expires: "" };
     let complete = true;
     for (let offset = -12; offset <= 24; offset += 5) {
+      if (!shouldContinue()) {
+        complete = false;
+        break;
+      }
       if (generation !== this.generation) return false;
       const batch = Array.from({ length: Math.min(5, 25 - offset) }, (_, i) => {
         const index = year * 12 + month - 1 + offset + i;

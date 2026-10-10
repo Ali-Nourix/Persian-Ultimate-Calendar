@@ -1,6 +1,6 @@
 {
   "name": "ultimate-persian-calendar",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "private": true,
   "description": "Jalali calendar, periodic notes and a date-picker API for Obsidian",
   "license": "GPL-3.0-only",
@@ -10,8 +10,8 @@
     "build": "npm run typecheck && node esbuild.config.mjs",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
-    "format": "prettier --write src tests main.ts styles.css *.json *.mjs docs/*.md README.md",
-    "format:check": "prettier --check src tests main.ts styles.css *.json *.mjs docs/*.md README.md",
+    "format": "prettier --write src tests scripts docs/examples main.ts styles.css *.json *.mjs docs/*.{md,yml} README.md CHANGELOG.md THIRD_PARTY_NOTICES.md",
+    "format:check": "prettier --check src tests scripts docs/examples main.ts styles.css *.json *.mjs docs/*.{md,yml} README.md CHANGELOG.md THIRD_PARTY_NOTICES.md",
     "check": "npm run typecheck && npm test && npm run format:check"
   },
   "dependencies": {

@@ -16,11 +16,19 @@ The CI template in `docs/ci.yml` runs tests in UTC, Asia/Tehran and America/Los_
 
 ## Local verification record — 2026-10-10
 
-- TypeScript typecheck, production bundle and formatting checks passed.
-- 20 automated tests passed in UTC, Asia/Tehran and America/Los_Angeles.
+- TypeScript typecheck (including the example consuming plugin), production bundle and formatting checks passed.
+- 29 automated tests passed in UTC, Asia/Tehran and America/Los_Angeles.
 - `npm audit` reported zero known vulnerabilities at verification time; this is not a security certification.
+- Additional settings-host checks covered repeated live refresh, interval controls, mode toggles, input validation, previews/reset, save errors, cache confirmation and keyboard tabs. Release version/tag checks were exercised locally; no GitHub release job or publication ran.
 - A separate Chromium harness using a mocked Obsidian DOM host exercised the actual date-picker module: bounds, initial selection, custom format, double-click, cancel/close, month navigation and separate promises.
-- The SVG cover and picker layouts at 700px / 390px were visually inspected. This local harness is not a substitute for native Obsidian testing, and is not part of the CI suite.
+- The new Vazirmatn-outlined cover/live-expression visuals and settings tabs at desktop / 390px, plus a dark-mode preview, were visually inspected. The earlier picker layouts at 700px / 390px were also inspected. This local harness is not a substitute for native Obsidian testing, and is not part of the CI suite.
+
+## New-settings release checklist
+
+- [ ] Verify static/dynamic toggles independently and each 1/5/30/60-second interval.
+- [ ] Confirm disabling holiday fetching stops later cache batches; already-started requests may finish.
+- [ ] Test filename/path validation, preview direction and error recovery in the native settings UI.
+- [ ] Activate the CI/release templates with workflow write access and test a draft release after native validation.
 
 ## Before release — real Obsidian
 

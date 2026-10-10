@@ -11,6 +11,10 @@ import { DatePickerModal } from "./src/date-picker";
 import { ExpressionHelperModal } from "./src/expression-modal";
 import { PersianCalendarSettingTab } from "./src/settings-tab";
 import { calculateValue } from "./src/expressions";
+import {
+  expressionReplacement,
+  refreshLiveExpressions,
+} from "./src/live-expressions";
 import { todayJalali } from "./src/dates";
 import { VIEW_TYPE_CALENDAR } from "./src/constants";
 export type {
@@ -27,6 +31,7 @@ export default class PersianCalendarPlugin extends Plugin {
   private pickers = new Set<DatePickerModal>();
   private writeQueue: Promise<void> = Promise.resolve();
   private unloaded = false;
+  private dynamicTimer: number | null = null;
   async onload() {
     const data = await this.loadData();
     this.settings = readSettings(data?.settings ?? data);
@@ -60,16 +65,10 @@ export default class PersianCalendarPlugin extends Plugin {
         this.handleSmartText(editor),
       ),
     );
-    this.registerInterval(
-      window.setInterval(() => this.updateDynamicTags(), 1000),
-    );
+    this.configureLiveUpdates();
     this.registerMarkdownPostProcessor((element) => {
-      element
-        .querySelectorAll<HTMLElement>("span.persian-dynamic-tag")
-        .forEach((tag) => {
-          const value = this.calculateValue(tag.dataset.key ?? "");
-          if (value !== null) tag.textContent = String(value);
-        });
+      if (this.settings.dynamicExpressions)
+        refreshLiveExpressions(element, (key) => this.calculateValue(key));
     });
     this.addCommand({
       id: "open-persian-calendar",
@@ -138,6 +137,8 @@ export default class PersianCalendarPlugin extends Plugin {
   }
   onunload() {
     this.unloaded = true;
+    if (this.dynamicTimer !== null) window.clearInterval(this.dynamicTimer);
+    this.dynamicTimer = null;
     for (const modal of this.pickers) modal.close();
     this.pickers.clear();
   }
@@ -162,18 +163,15 @@ export default class PersianCalendarPlugin extends Plugin {
       if (cursor.ch !== end) continue;
       const value = this.calculateValue(match[2]);
       if (value === null) return;
-      const escaped = match[2]
-        .replace(/&/g, "&amp;")
-        .replace(/"/g, "&quot;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-      const escapedValue = String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-      const text = match[1]
-        ? `<span class="persian-dynamic-tag" data-key="${escaped}">${escapedValue}</span>`
-        : String(value);
+      const dynamic = match[1] === "#";
+      if (
+        dynamic
+          ? !this.settings.dynamicExpressions
+          : !this.settings.staticExpressions
+      )
+        return;
+      const text = expressionReplacement(match[2], dynamic, value);
+      if (text === null) return;
       editor.replaceRange(
         text,
         { line: cursor.line, ch: index },
@@ -182,14 +180,20 @@ export default class PersianCalendarPlugin extends Plugin {
       return;
     }
   }
+  configureLiveUpdates() {
+    if (this.dynamicTimer !== null) window.clearInterval(this.dynamicTimer);
+    this.dynamicTimer = null;
+    if (this.settings.dynamicExpressions && !this.unloaded) {
+      this.dynamicTimer = window.setInterval(
+        () => this.updateDynamicTags(),
+        this.settings.dynamicUpdateInterval,
+      );
+      this.registerInterval(this.dynamicTimer);
+    }
+  }
   updateDynamicTags() {
-    document
-      .querySelectorAll<HTMLElement>("span.persian-dynamic-tag")
-      .forEach((tag) => {
-        const value = this.calculateValue(tag.dataset.key ?? "");
-        if (value !== null && tag.textContent !== String(value))
-          tag.textContent = String(value);
-      });
+    if (!this.settings.dynamicExpressions || this.unloaded) return;
+    refreshLiveExpressions(document, (key) => this.calculateValue(key));
   }
   calculateValue(keyword: string) {
     return calculateValue(
@@ -207,7 +211,11 @@ export default class PersianCalendarPlugin extends Plugin {
     if (this.isFetchingCache || !this.settings.showHolidays) return false;
     this.isFetchingCache = true;
     try {
-      return await this.events.refresh(y, m);
+      return await this.events.refresh(
+        y,
+        m,
+        () => this.settings.showHolidays && !this.unloaded,
+      );
     } finally {
       this.isFetchingCache = false;
     }
