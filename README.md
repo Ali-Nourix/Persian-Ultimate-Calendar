@@ -8,9 +8,10 @@
 
 [عبارت‌های زنده](docs/LIVE-EXPRESSIONS.md) · [نصب](#نصب) · [مرجع API](docs/API.md) · [ساخت Release](docs/RELEASING.md)
 
-![Obsidian](https://img.shields.io/badge/Obsidian-1.5%2B-6C5CE7?style=flat-square)
-![Version](https://img.shields.io/badge/version-4.2.4-2783DE?style=flat-square)
-![License](https://img.shields.io/badge/license-GPL--3.0-46A171?style=flat-square)
+![Obsidian](https://img.shields.io/badge/Obsidian-plugin-6C5CE7?style=flat-square)
+![Version](https://img.shields.io/badge/version-4.2.3-2783DE?style=flat-square)
+![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-46A171?style=flat-square)
+![Mobile Support](https://img.shields.io/badge/mobile-supported-2EA44F?style=flat-square)
 
 </div>
 
