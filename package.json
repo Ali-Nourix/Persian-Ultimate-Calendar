@@ -1,6 +1,6 @@
 {
   "name": "ultimate-persian-calendar",
-  "version": "4.2.3",
+  "version": "4.2.4",
   "private": true,
   "description": "Jalali calendar, periodic notes and a date-picker API for Obsidian",
   "license": "GPL-3.0-only",
