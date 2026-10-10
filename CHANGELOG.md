@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.3 — 2026-10-10
+
+- Align manifest, package and lockfile versions for a new release tag instead of moving the already-published v4.2.2 tag.
+- Carry the current release packaging: main.js, manifest.json, styles.css and a ZIP with exactly those three files at its root.
+- No calendar or picker runtime behavior change in this maintenance release.
+
 ## 4.2.2 — 2026-10-10
 
 - Make live expressions a primary documented feature, with a dedicated guide and visual.
